@@ -1,0 +1,55 @@
+<h1>Restful CRUD</h1>
+<!-- waiting for a click on the button, which will invoke the getAll function in the class (aka component's .ts)file -->
+<form (submit)="onSubmit()">
+  <!-- use the json pipe to see how newTask changes in real time -->
+  <!--<p> {{ newTask | json }} </p>-->
+  <input type="text" name="newTask.title" [(ngModel)]="newTask.title" />
+  <input type="text" name="newTask.description" [(ngModel)]="newTask.description" />
+  <input type="submit" value="Create Task" />
+</form>
+
+<button (click)="getAll()">Click me to get all tasks</button>
+<!-- Be able to read all the JSON data in the task object -->
+{{task | json}}
+<!-- Loop through an array of tasks, calling each task t -->
+<div *ngFor="let t of tasks">
+  <!-- Display each task's title -->
+<p>{{t.title}}</p>
+<!-- a button click will invoke getOne and pass it the task's _id and define what selectedTask is-->
+<button (click)="getOne(t._id)">Display task details</button>
+<button (click)="editTask(t._id)">Edit</button>
+<div *ngIf="TaskEdit">
+  <!-- display the title and description of the selectedTask -->
+  <form (submit)="onSubmitedit()">
+    <!-- use the json pipe to see how newTask changes in real time -->
+    <!--<p> {{ newTask | json }} </p>-->
+    <input type="text" name="editThisTask.title" [(ngModel)]="editThisTask.title" />
+    <input type="text" name="editThisTask.description" [(ngModel)]="editThisTask.description" />
+    <input type="submit" value="Edit" />
+    <button (click)="editSave(t._id, data)">Edit</button>
+    
+  </form>
+
+</div>
+
+<button (click)="deleteTask(t._id)">Delete</button>
+
+
+<!-- alternatively, this button also listens for a click and invokes choose() and passes it the entire task -->
+<button (click)="choose(t)">Choose a task</button>
+</div>
+<!-- check if selectedTask exists - -->
+<div *ngIf="selectedTask">
+  <!-- display the title and description of the selectedTask -->
+  <p>Task Details</p><br>
+  <p>{{selectedTask.title}}</p>
+  <p>{{selectedTask.description}}</p>
+</div>
+<div *ngIf="TaskDelete">
+  <!-- display the title and description of the selectedTask -->
+  <p>The below task has been successfully deleted <p>
+  <p>{{TaskDelete.title}}</p>
+  <p>{{TaskDelete.description}}</p>
+  
+</div>
+
